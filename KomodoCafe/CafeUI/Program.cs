@@ -8,8 +8,8 @@ namespace CafeUI
         // Interface
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
-            Console.ReadLine();
+            KomodoUI ui = new KomodoUI();
+            ui.Run();
         }
     }
 }
