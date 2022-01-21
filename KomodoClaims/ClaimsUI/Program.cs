@@ -24,7 +24,7 @@ namespace ClaimsUI
     // [] Logic for valid claim
 // [] set up test class for repo methods
 // [] manage list of claims
-    // [] set up menu
-    // [] display formatting
+    // [X] set up menu
+    // [X] display formatting
     // [] recommend claim number
         // create list of already used claimID's & use max + 1

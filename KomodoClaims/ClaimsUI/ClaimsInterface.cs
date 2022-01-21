@@ -12,12 +12,12 @@ namespace ClaimsUI
 
         private readonly ClaimsRepository _claims = new ClaimsRepository();
 
-        
+
         public void Run()
         {
             ClaimsMenu();
         }
-        
+
         private void ClaimsMenu()
         {
             bool isRunning = true;
@@ -75,7 +75,7 @@ namespace ClaimsUI
             int amountPad = 9;
             int dateOfAccPad = 14;
             int dateofClaimPad = 11;
-            
+
             string spacer = "  ";
             string idDisplay = item.ClaimID.ToString().PadRight(idPad) + spacer;
             string typeDisplay = item.ClaimType.ToString().PadRight(typePad) + spacer;
@@ -85,7 +85,7 @@ namespace ClaimsUI
             string dateofClaimDisplay = item.ClaimDate.ToShortDateString().PadRight(dateofClaimPad) + spacer;
             string claimValidDisplay = item.ClaimValid.ToString();
             Console.WriteLine(idDisplay + typeDisplay + descriptionDisplay + amountDisplay + dateOfAccDisplay + dateofClaimDisplay + claimValidDisplay);
-            
+
         }
         // See all method
         public void SeeAllClaims()
@@ -102,13 +102,30 @@ namespace ClaimsUI
         }
         // Take care of next claim
         // Enter new claim
+
+        public int RecommendID()
+        {
+            List<int> idArray = new List<int>();
+            if (_claims.GetClaimList().Count == 0) // if empty array, recommend 1
+            {
+                return 1;
+            }
+            else {  // otherwise recommend 1 higher than the max claim number in the list
+            foreach (Claim item in _claims.GetClaimList())
+            {
+                idArray.Add(item.ClaimID);
+            }
+            return idArray.Max() + 1;
+            }
+        }
+
         public void EnterNewClaim()
         {
             Console.Clear();
-            
+
             Claim newClaim = new Claim();
 
-            int recommendedID = 1; // get some logic in here and recommend the minimum number
+            int recommendedID = RecommendID(); // get some logic in here and recommend the minimum number
             Console.Write($"Enter the claim ID (recommended value {recommendedID}): ");
             string idToValidate = Console.ReadLine();  // validation here later
             newClaim.ClaimID = int.Parse(idToValidate);
@@ -131,17 +148,17 @@ namespace ClaimsUI
                     typeOfClaim = Console.ReadLine();
                     break;
             }
-            
+
             Console.WriteLine("\nEnter a description of the claim (max 23 characters): ");
             int maxDescriptionSize = 23;
             string demarc = "V";
             Console.WriteLine(demarc.PadLeft(maxDescriptionSize - 1) + " - do not enter text past this point");
-            
+
             newClaim.ClaimDescription = Console.ReadLine();
 
             Console.Write("\nEnter the claim amount: $ ");
             newClaim.TotalDamage = decimal.Parse(Console.ReadLine());
-            
+
             Console.Write("\nEnter the date of the incident (format MM/DD/YY): ");
             string dateAccident = Console.ReadLine();
             newClaim.AccidentDate = DateTime.ParseExact(dateAccident, "MM/dd/yy", CultureInfo.InvariantCulture);
@@ -161,7 +178,7 @@ namespace ClaimsUI
             {
                 newClaim.ClaimValid = false;
             }
-            
+
             _claims.AddNewClaim(newClaim);
         }
 
