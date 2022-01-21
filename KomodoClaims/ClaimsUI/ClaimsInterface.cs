@@ -78,11 +78,11 @@ namespace ClaimsUI
             
             string spacer = "  ";
             string idDisplay = item.ClaimID.ToString().PadRight(idPad) + spacer;
-            string typeDisplay = item.ClaimID.ToString().PadRight(typePad) + spacer;
+            string typeDisplay = item.ClaimType.ToString().PadRight(typePad) + spacer;
             string descriptionDisplay = item.ClaimDescription.PadRight(descriptionPad) + spacer;
             string amountDisplay = ("$" + item.TotalDamage.ToString().PadRight(amountPad)) + spacer;
-            string dateOfAccDisplay = item.ClaimDate.ToShortDateString().PadRight(dateOfAccPad) + spacer;
-            string dateofClaimDisplay = item.AccidentDate.ToShortDateString().PadRight(dateofClaimPad) + spacer;
+            string dateOfAccDisplay = item.AccidentDate.ToShortDateString().PadRight(dateOfAccPad) + spacer;
+            string dateofClaimDisplay = item.ClaimDate.ToShortDateString().PadRight(dateofClaimPad) + spacer;
             string claimValidDisplay = item.ClaimValid.ToString();
             Console.WriteLine(idDisplay + typeDisplay + descriptionDisplay + amountDisplay + dateOfAccDisplay + dateofClaimDisplay + claimValidDisplay);
             
@@ -90,12 +90,15 @@ namespace ClaimsUI
         // See all method
         public void SeeAllClaims()
         {
+            Console.Clear();
             HeaderBar();
             Queue<Claim> listOfClaims = _claims.GetClaimList();
             foreach (Claim item in listOfClaims)
             {
                 DisplayClaim(item);
             }
+            Console.Write("Press any key to continue:");
+            Console.ReadKey();
         }
         // Take care of next claim
         // Enter new claim
@@ -132,18 +135,18 @@ namespace ClaimsUI
             Console.WriteLine("\nEnter a description of the claim (max 23 characters): ");
             int maxDescriptionSize = 23;
             string demarc = "V";
-            Console.WriteLine(demarc.PadLeft(maxDescriptionSize - 1) + " - finish before here");
+            Console.WriteLine(demarc.PadLeft(maxDescriptionSize - 1) + " - do not enter text past this point");
             
             newClaim.ClaimDescription = Console.ReadLine();
 
             Console.Write("\nEnter the claim amount: $ ");
             newClaim.TotalDamage = decimal.Parse(Console.ReadLine());
             
-            Console.Write("\nEnter the date of the accident (format MM/DD/YY): ");
+            Console.Write("\nEnter the date of the incident (format MM/DD/YY): ");
             string dateAccident = Console.ReadLine();
             newClaim.AccidentDate = DateTime.ParseExact(dateAccident, "MM/dd/yy", CultureInfo.InvariantCulture);
 
-            Console.WriteLine("\nEnter the date of the claim (format MM/DD/YY): ");
+            Console.Write("\nEnter the date of the claim (format MM/DD/YY): ");
             string dateClaim = Console.ReadLine();
             newClaim.ClaimDate = DateTime.ParseExact(dateClaim, "MM/dd/yy", CultureInfo.InvariantCulture);
 
@@ -158,7 +161,8 @@ namespace ClaimsUI
             {
                 newClaim.ClaimValid = false;
             }
-
+            
+            _claims.AddNewClaim(newClaim);
         }
 
         // Need to Enqueue and Dequeue information
