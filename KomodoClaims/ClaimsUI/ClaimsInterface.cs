@@ -45,6 +45,7 @@ namespace ClaimsUI
                         break;
                     case "2":
                         // Take care of next claim method
+                        HandleClaim();
                         break;
                     case "3":
                         // Enter a new claim method
@@ -180,6 +181,40 @@ namespace ClaimsUI
             }
 
             _claims.AddNewClaim(newClaim);
+        }
+
+        public void HandleClaim()
+        {
+            Console.Clear();
+
+            Claim nextClaim = _claims.GetClaimList().Peek();
+
+            Console.WriteLine($"Claim ID:  {nextClaim.ClaimID}\n");
+            Console.WriteLine($"Type:  {nextClaim.ClaimType.ToString()}\n");
+            Console.WriteLine($"Description:  {nextClaim.ClaimDescription}\n");
+            Console.WriteLine($"Amount:  ${nextClaim.TotalDamage}\n");
+            Console.WriteLine($"Date of Accident:  {nextClaim.AccidentDate}\n");
+            Console.WriteLine($"Date of Claim {nextClaim.ClaimDate}\n");
+            Console.WriteLine($"Valid Claim?:  {nextClaim.ClaimValid}\n");
+
+
+            Console.WriteLine("Would you like to handle this claim (Y/N)?");
+            string handleClaim = Console.ReadLine().ToLower();
+            switch (handleClaim)
+            {
+                case "y":
+                    _claims.GetClaimList().Dequeue();
+                    Console.Write("Claim handled. Press any key to continue");
+                    Console.ReadKey();
+                    break;
+                case "n":
+                    break;
+                default:
+                    Console.WriteLine("Invalid selection, please enter (Y/N)");
+                    handleClaim = Console.ReadLine().ToLower();
+                    break;
+            }
+
         }
 
         // Need to Enqueue and Dequeue information

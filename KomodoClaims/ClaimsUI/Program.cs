@@ -18,13 +18,14 @@ namespace ClaimsUI
 // [] set up repository
     // [X] Create
     // [X] Read
-    // [] Update
+    // [X] Update
     // [X] Delete
 // [X] set up claim class
-    // [] Logic for valid claim
+    // [X] Logic for valid claim
 // [] set up test class for repo methods
 // [] manage list of claims
     // [X] set up menu
     // [X] display formatting
-    // [] recommend claim number
-        // create list of already used claimID's & use max + 1
+    // [X] recommend claim number
+        // [X] create list of already used claimID's & use max + 1
+// [] Repository Testing
