@@ -17,21 +17,22 @@ namespace BadgeLibrary
             B3,
             ServerRoom
         }
+
     public class Badges
     {
         
         public void Badge() {}
 
-        public void Badge(int badgeID, List<Doors> accessPermission, string nameBadge)
+        public void Badge(int badgeID, List<Doors> accessPermission /*, string nameBadge - future feature*/)
         {
             BadgeID = badgeID;
             AccessPermission = accessPermission;
-            NameBadge = nameBadge;
+            // NameBadge = nameBadge;  /* Future feature */
         }
 
         public int BadgeID { get; set; }
-        public List<Doors> AccessPermission { get; set; }
-        public string NameBadge { get; set; }
+        public List<Doors> AccessPermission { get; set; } = new List<Doors>(); // Initializes new list right away
+        // public string NameBadge { get; set; } /* Future feature */
 
     }
 }

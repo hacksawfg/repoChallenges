@@ -9,45 +9,121 @@ namespace BadgeLibrary
 
     public class BadgeRepository
     {
-        private readonly Dictionary<int, List<Badges>> _badges = new Dictionary<int, List<Badges>>();
-        
+        private readonly Dictionary<int, List<Doors>> _badges = new Dictionary<int, List<Doors>>();
+
 
         public bool AddNewBadge(Badges newBadge)
         {
             int startingCount = _badges.Count;
-            _badges.Add();
+            _badges.Add(newBadge.BadgeID, newBadge.AccessPermission);
 
             return _badges.Count > startingCount;
         }
 
-        public List<Badges> ListAllBadges()
+        public Dictionary<int, List<Doors>> ReturnAllBadges()
         {
             return _badges;
         }
 
-        public List<Badges> RetreiveSingleBadgeAccess(int badgeID)
+
+        public bool AddTheDoor(Badges itemBadge, int doorEnumNumber)
         {
-            Badges showAccess = SelectOneBadge(badgeID);
-            return showAccess.AccessPermission;
+            int startingCount = itemBadge.AccessPermission.Count();
+            itemBadge.AccessPermission.Add((Doors)doorEnumNumber);
+
+            return startingCount < itemBadge.AccessPermission.Count();
         }
 
-        public Badges SelectOneBadge(int badgeID)
+        public bool RemoveSingleDoor(Badges itemBadge, int doorEnumNumber)
         {
-            foreach (Badges target in _badges)
+            int startingCount = itemBadge.AccessPermission.Count();
+            itemBadge.AccessPermission.Remove((Doors)doorEnumNumber);
+
+            return startingCount > itemBadge.AccessPermission.Count();
+        }
+
+        public bool RemoveAllDoors(Badges itemBadge)
+        {
+            itemBadge.AccessPermission.Clear();
+            return itemBadge.AccessPermission.Count() == 0;
+        }
+
+        // public KeyValuePair<int, List<Doors>> RetreiveSingleBadgeAccessList(int badgeID)
+        // {
+        //     KeyValuePair<int, List<Doors>> showAccess = SelectOneBadge(badgeID);
+        //     if (showAccess.Key > 0)
+        //     {
+        //         return showAccess;
+        //     }
+        //     else
+        //     {
+        //         List<Doors> nothingHere = new List<Doors>();
+        //         KeyValuePair<int, List<Doors>> nothingFound = new KeyValuePair<int, List<Doors>>(badgeID, nothingHere);
+        //         return nothingFound;
+        //     }
+        //     // to show doors a badge can access
+        // }
+
+        public Badges RetreiveSingleBadge(int badgeID)
+        {
+            Badges returnBadge = new Badges();
+            KeyValuePair<int, List<Doors>> showAccess = SelectOneBadge(badgeID);
+            if (showAccess.Key > 0)
             {
-                if (badgeID = target.BadgeID)
+                returnBadge.BadgeID = badgeID;
+                returnBadge.AccessPermission = showAccess.Value;
+                return returnBadge;
+            }
+            else
+            {
+                List<Doors> nothingHere = new List<Doors>();
+                returnBadge.BadgeID = badgeID;
+                returnBadge.AccessPermission = nothingHere;
+                return returnBadge;
+            }
+            // to show doors a badge can access
+        }
+
+        public List<Doors> RetrieveDoorListFromBadgeId(int badgeId)
+        {
+            List<Doors> doorList = SelectOneBadge(badgeId).Value;
+            return doorList;
+        }
+
+        public KeyValuePair<int, List<Doors>> SelectOneBadge(int badgeID)
+        {
+            foreach (KeyValuePair<int, List<Doors>> target in _badges)
+            {
+                if (badgeID == target.Key)
                 {
                     return target;
                 }
             }
-            return null;
+            // return null;
+            List<Doors> nothingHere = new List<Doors>();
+            KeyValuePair<int, List<Doors>> nothingFound = new KeyValuePair<int, List<Doors>>(badgeID, nothingHere);
+            return nothingFound;
         }
 
-        public void EditBadge(int badgeID)
-        {
-            Badges badgeToEdit = SelectOneBadge(badgeID);
+        // public KeyValuePair<int, List<Doors>> GetBadgeToUpdate(int badgeID)
+        // {
+        //     foreach (KeyValuePair<int, List<Doors>> target in _badges)
+        //     {
+        //         if (badgeID == target.Key)
+        //         {
+        //             return target;
+        //         }
+        //     }
+        // }
 
-        }
+        // public List<Doors> EditBadge(int badgeID)
+        // {
+        //     List<Doors> listForUpdating = SelectOneBadge(badgeID);
+        //     return listForUpdating;
+
+        //     // select and change a badge access from the dictionary
+
+        // }
 
     }
 }
