@@ -12,6 +12,7 @@ namespace BadgeLibrary
         private readonly Dictionary<int, List<Doors>> _badges = new Dictionary<int, List<Doors>>();
 
 
+        // Adds new Badge to system, returns true if successful
         public bool AddNewBadge(Badges newBadge)
         {
             int startingCount = _badges.Count;
@@ -20,12 +21,15 @@ namespace BadgeLibrary
             return _badges.Count > startingCount;
         }
 
+        
+        // return complete dictionary containing key value pairs for entire repository
         public Dictionary<int, List<Doors>> ReturnAllBadges()
         {
             return _badges;
         }
 
 
+        // Adds the door, utilized in adding new badge and update badge sections
         public bool AddTheDoor(Badges itemBadge, int doorEnumNumber)
         {
             int startingCount = itemBadge.AccessPermission.Count();
@@ -34,6 +38,7 @@ namespace BadgeLibrary
             return startingCount < itemBadge.AccessPermission.Count();
         }
 
+        //used in update method
         public bool RemoveSingleDoor(Badges itemBadge, int doorEnumNumber)
         {
             int startingCount = itemBadge.AccessPermission.Count();
@@ -42,29 +47,16 @@ namespace BadgeLibrary
             return startingCount > itemBadge.AccessPermission.Count();
         }
 
+        // used in update method, removes all doors and returns if completed
         public bool RemoveAllDoors(Badges itemBadge)
         {
             itemBadge.AccessPermission.Clear();
             return itemBadge.AccessPermission.Count() == 0;
         }
 
-        // public KeyValuePair<int, List<Doors>> RetreiveSingleBadgeAccessList(int badgeID)
-        // {
-        //     KeyValuePair<int, List<Doors>> showAccess = SelectOneBadge(badgeID);
-        //     if (showAccess.Key > 0)
-        //     {
-        //         return showAccess;
-        //     }
-        //     else
-        //     {
-        //         List<Doors> nothingHere = new List<Doors>();
-        //         KeyValuePair<int, List<Doors>> nothingFound = new KeyValuePair<int, List<Doors>>(badgeID, nothingHere);
-        //         return nothingFound;
-        //     }
-        //     // to show doors a badge can access
-        // }
 
-        public Badges RetreiveSingleBadge(int badgeID)
+        // used in badge update section to retrieve a single badge for modification
+        public Badges RetrieveSingleBadge(int badgeID)
         {
             Badges returnBadge = new Badges();
             KeyValuePair<int, List<Doors>> showAccess = SelectOneBadge(badgeID);
@@ -84,11 +76,7 @@ namespace BadgeLibrary
             // to show doors a badge can access
         }
 
-        public List<Doors> RetrieveDoorListFromBadgeId(int badgeId)
-        {
-            List<Doors> doorList = SelectOneBadge(badgeId).Value;
-            return doorList;
-        }
+        // not used, scheduled for removal from code
 
         public KeyValuePair<int, List<Doors>> SelectOneBadge(int badgeID)
         {
@@ -104,26 +92,5 @@ namespace BadgeLibrary
             KeyValuePair<int, List<Doors>> nothingFound = new KeyValuePair<int, List<Doors>>(badgeID, nothingHere);
             return nothingFound;
         }
-
-        // public KeyValuePair<int, List<Doors>> GetBadgeToUpdate(int badgeID)
-        // {
-        //     foreach (KeyValuePair<int, List<Doors>> target in _badges)
-        //     {
-        //         if (badgeID == target.Key)
-        //         {
-        //             return target;
-        //         }
-        //     }
-        // }
-
-        // public List<Doors> EditBadge(int badgeID)
-        // {
-        //     List<Doors> listForUpdating = SelectOneBadge(badgeID);
-        //     return listForUpdating;
-
-        //     // select and change a badge access from the dictionary
-
-        // }
-
     }
 }

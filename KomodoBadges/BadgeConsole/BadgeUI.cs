@@ -120,21 +120,6 @@ namespace BadgeConsole
             return doorEnumNumber;
         }
 
-        // private void AddTheDoor(Badges newBadge, int idValidated)
-        // {
-        //     string newAccessDoor = Console.ReadLine();
-        //     // logic to see if door is in enum
-        //     if (Enum.TryParse<Doors>(newAccessDoor, out Doors result))
-        //     {
-        //         newBadge.AccessPermission.Add(result);
-        //     }
-        //     else
-        //     {
-        //         Console.Write("Invalid Selection, please try again: ");
-        //         newAccessDoor = Console.ReadLine();
-        //     }
-        // }
-
         public void EditBadge()
         {
             // Badges updateBadge = ';
@@ -142,7 +127,7 @@ namespace BadgeConsole
             DisplayAllBadges();
             Console.Write("Enter the number of the badge to update:  ");
             int updateBadgeID = int.Parse(Console.ReadLine());  // implement validation later
-            Badges updateBadge = _accessList.RetreiveSingleBadge(updateBadgeID);
+            Badges updateBadge = _accessList.RetrieveSingleBadge(updateBadgeID);
             List<Doors> updateDoorAccessList = updateBadge.AccessPermission;
             Console.WriteLine(" Would you like to (A)dd a door, (R)emove a door, or (D)elete all doors?: ");
             string selection = Console.ReadLine().ToLower();
@@ -172,8 +157,10 @@ namespace BadgeConsole
                         }
                         else
                         {
-                            Console.WriteLine("Operation successful");
+                            Console.WriteLine("Operation unsuccessful");
                         }
+                        Console.Write("Hit any key to continue.");
+                        Console.ReadKey();
                     }
                     else if (removeAllConfirm == "n")
                     {
@@ -191,15 +178,7 @@ namespace BadgeConsole
                     break;
             }
         }
-
-        public void SuccessStatement()
-        {
-            Console.Clear();
-            Console.WriteLine("Whatever you want");
-            Console.ReadKey();
-
-        }
-
+        
         public void DisplayAllBadges()
         {
             Console.Clear();
@@ -211,9 +190,6 @@ namespace BadgeConsole
                 Console.Write($"Badge ID: {item.Key}".PadRight(20));
                 Console.Write($"Accessable Doors:  {result}\n");
             }
-            // Console.Write("Hit any key to continue: ");
-            // Console.ReadKey();
         }
-
     }
 }
