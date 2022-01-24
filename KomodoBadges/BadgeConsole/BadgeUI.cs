@@ -109,13 +109,15 @@ namespace BadgeConsole
 
         private static int DoorSelectMenu()
         {
-            Console.WriteLine("1.  A1\n" +
+            Console.WriteLine("\nDOOR SELECTION MENU\n" +
+                              "1.  A1\n" +
                               "2.  A2\n" +
                               "3.  A3\n" +
                               "4.  B1\n" +
                               "5.  B2\n" +
                               "6.  B3\n" +
                               "7.  Server Room");
+            Console.Write("\nSelection:  ");
             int doorEnumNumber = int.Parse(Console.ReadLine());
             return doorEnumNumber;
         }
@@ -129,7 +131,7 @@ namespace BadgeConsole
             int updateBadgeID = int.Parse(Console.ReadLine());  // implement validation later
             Badges updateBadge = _accessList.RetrieveSingleBadge(updateBadgeID);
             List<Doors> updateDoorAccessList = updateBadge.AccessPermission;
-            Console.WriteLine(" Would you like to (A)dd a door, (R)emove a door, or (D)elete all doors?: ");
+            Console.Write("Would you like to (A)dd a door, (R)emove a door, or (D)elete all doors?: ");
             string selection = Console.ReadLine().ToLower();
             switch (selection)
             {
@@ -139,14 +141,14 @@ namespace BadgeConsole
                     bool doorAdded = _accessList.AddTheDoor(updateBadge, doorEnumNumberA);
                     break;
                 case "r":
-                    Console.WriteLine($"Please select a door to remove from Badge {updateBadgeID}");
+                    Console.WriteLine($"\nPlease select a door to remove from Badge {updateBadgeID}");
                     int doorEnumNumberR = DoorSelectMenu();
                     bool doorRemoved = _accessList.RemoveSingleDoor(updateBadge, doorEnumNumberR);
                     // remove a door in here
                     break;
                 case "d":
                     // delete all doors here
-                    Console.WriteLine($"Are you sure you want to remove all door access for Badge {updateBadgeID}");
+                    Console.Write($"\nAre you sure you want to remove all door access for Badge {updateBadgeID} (Y/N)?: ");
                     string removeAllConfirm = Console.ReadLine().ToString().ToLower();
                     if (removeAllConfirm == "y")
                     {
@@ -168,12 +170,12 @@ namespace BadgeConsole
                     }
                     else
                     {
-                        Console.WriteLine("Please enter a valid selection: ");
+                        Console.Write("\nPlease enter a valid selection: ");
                         removeAllConfirm = Console.ReadLine().ToString().ToLower();
                     }
                     break;
                 default:
-                    Console.WriteLine("Please enter a valid selection: ");
+                    Console.Write("\nPlease enter a valid selection: ");
                     selection = Console.ReadKey().ToString().ToLower();
                     break;
             }
